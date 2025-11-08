@@ -1,106 +1,48 @@
-# 🌞 Solar Energy Prediction using Machine Learning
+# Energy Efficiency Prediction
 
-## 📘 Project Overview
-This project aims to **predict solar energy generation** based on environmental factors using **machine learning techniques**.  
-The model is trained and evaluated using real-world solar energy datasets, focusing on accurate and efficient energy prediction for smart grid and renewable energy management applications.
+This project uses an XGBoost regression model to predict the **Heating Load** and **Cooling Load** of residential buildings based on their physical characteristics.
 
----
+The model is built and evaluated in the `engery_efficiency_prediction.ipynb` Jupyter Notebook.
 
-## 🧠 Key Features
-- Data cleaning and preprocessing for solar datasets  
-- Feature engineering for energy prediction  
-- Implementation of regression models (e.g., Linear Regression, Random Forest, etc.)  
-- Model training, testing, and performance evaluation  
-- Visualization of results and insights  
+## 📈 Dataset
 
----
+This project uses the **Energy Efficiency** dataset from the UCI Machine Learning Repository (`ENB2012_data.xlsx`).
 
-## 📁 Project Structure
-```
+* **Instances:** 768
+* **Features (X):** 8 features describing the building, such as `relative_compactness`, `surface_area`, `wall_area`, `roof_area`, and `glazing_area`.
+* **Targets (y):** 2 continuous variables: `heating_load` and `cooling_load`.
 
-├── energy_efficiency_model.ipynb   # Main Jupyter Notebook
-├── dataset/                        # Folder containing raw and processed data
-├── README.md                       # Project documentation
-````
+## 🛠️ Approach
 
----
-
-## ⚙️ Installation & Setup
-
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/<your-username>/solar-energy-prediction.git
-cd solar-energy-prediction
-````
-
-### 2️⃣ Install Dependencies
-
-It’s recommended to create a virtual environment first:
-
-```bash
-pip install -r requirements.txt
-```
-
-Or manually install the main packages:
-
-```bash
-pip install numpy pandas matplotlib scikit-learn seaborn
-```
-
-### 3️⃣ Run the Notebook
-
-Open the Jupyter Notebook:
-
-```bash
-jupyter notebook energy_efficiency_model.ipynb
-```
-
----
-
-## 🧩 Dataset
-
-The dataset includes features such as:
-
-* Solar irradiance
-* Temperature
-* Humidity
-* Wind speed
-* Date/time and location data
-
-> Ensure the dataset is placed inside the `/dataset` directory before running the notebook.
-
----
+1.  **Data Loading & EDA:** The data is loaded, and a correlation heatmap is generated to understand feature relationships.
+2.  **Preprocessing:** A `ColumnTransformer` is used to:
+    * **Standardize** numerical features (e.g., `surface_area`).
+    * **One-hot encode** categorical features (`orientation` and `glazing_area_distribution`).
+3.  **Modeling:**
+    * An `XGBRegressor` is used as the base estimator.
+    * `MultiOutputRegressor` is wrapped around the XGBoost model to predict both target variables (Heating and Cooling Load) simultaneously.
+    * The entire process (preprocessing and modeling) is streamlined using a Scikit-learn `Pipeline`.
+4.  **Evaluation:** The model is trained on 80% of the data and evaluated on the 20% test set.
 
 ## 📊 Results
 
-* Achieved high prediction accuracy using regression models
-* Visualized energy trends and correlations
-* Identified key factors affecting solar power output
+The model performs with high accuracy on the unseen test data:
 
----
+* **R² Score:** 0.990
+* **Mean Absolute Error (MAE):** 0.527
+* **Root Mean Squared Error (RMSE):** 0.970
 
-## 🚀 Future Enhancements
+The notebook also includes visualizations for feature importance and a scatter plot of actual vs. predicted values.
 
-* Integrate deep learning models (LSTM, CNN)
-* Develop a real-time energy monitoring dashboard
-* Optimize model for IoT or embedded deployment
+## 🚀 How to Run
 
----
-
-## 👨‍💻 Author
-
-"S. Siddhardha Akhil Prasad"   
-B.Tech CSE Student, Acharya Nagarjuna University
-📫 *Feel free to reach out for collaboration or suggestions!*
-
----
-
-## 📝 License
-
-This project is licensed under the **MIT License** — feel free to use, modify, and share with attribution.
-
----
-
-## ⭐ Acknowledgments
-
-Special thanks to mentors, peers, and open-source contributors for their support in developing this project.
+1.  Ensure you have Python 3 installed.
+2.  Install the required libraries:
+    ```bash
+    pip install pandas numpy matplotlib seaborn scikit-learn xgboost
+    ```
+3.  You will also need a library to read Excel files:
+    ```bash
+    pip install openpyxl
+    ```
+4.  Open and run the Jupyter Notebook `engery_efficiency_prediction.ipynb`.
